@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Range — Arcade Pistols</title>
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <div id="game"></div>
+    <div id="crosshair" class="hidden">+</div>
+
+    <div id="hud" class="hidden">
+      <div class="hud-top">
+        <div><span class="label">WAVE</span> <span id="hud-wave">1</span></div>
+        <div><span class="label">TIME</span> <span id="hud-time">60</span></div>
+        <div><span class="label">SCORE</span> <span id="hud-score">0</span></div>
+        <div id="hud-combo-wrap" class="hidden">
+          <span class="label">COMBO</span> <span id="hud-combo">x1</span>
+        </div>
+      </div>
+      <div class="hud-bottom">
+        <div id="hud-gun">9mm</div>
+        <div id="hud-ammo">15 / 45</div>
+        <div id="hud-hint">R reload · 1–3 guns · A/D strafe</div>
+      </div>
+    </div>
+
+    <div id="menu" class="panel">
+      <h1>RANGE</h1>
+      <p class="tag">Arcade pistol shooting hall</p>
+      <ul class="help">
+        <li>Click Play, then click the hall to lock your aim</li>
+        <li>Mouse look · Left click fire · R reload</li>
+        <li>1 / 2 / 3 or wheel to switch pistols · A / D along the line</li>
+        <li>Hit targets in waves. Combos multiply score. Clear all four waves.</li>
+      </ul>
+      <button id="btn-play" type="button">Play</button>
+    </div>
+
+    <div id="countdown" class="panel hidden"></div>
+
+    <div id="pause" class="panel hidden">
+      <h1>Paused</h1>
+      <p>Click the hall to resume aiming</p>
+      <button id="btn-resume" type="button">Resume</button>
+    </div>
+
+    <div id="end" class="panel hidden">
+      <h1 id="end-title">Game Over</h1>
+      <p id="end-score"></p>
+      <button id="btn-restart" type="button">Restart</button>
+    </div>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
