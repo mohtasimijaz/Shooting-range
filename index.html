@@ -27,15 +27,32 @@
     </div>
 
     <div id="menu" class="panel">
-      <h1>RANGE</h1>
-      <p class="tag">Arcade pistol shooting hall</p>
-      <ul class="help">
-        <li>Click Play, then click the hall to lock your aim</li>
-        <li>Mouse look · Left click fire · R reload</li>
-        <li>1 / 2 / 3 or wheel to switch pistols · A / D along the line</li>
-        <li>Hit targets in waves. Combos multiply score. Clear all four waves.</li>
-      </ul>
-      <button id="btn-play" type="button">Play</button>
+      <div class="menu-card">
+        <svg class="reticle" viewBox="0 0 200 200" aria-hidden="true">
+          <circle cx="100" cy="100" r="92" />
+          <circle cx="100" cy="100" r="62" />
+          <circle cx="100" cy="100" r="30" />
+          <path d="M100 0v36M100 164v36M0 100h36M164 100h36" />
+        </svg>
+
+        <p class="eyebrow"><span></span>Indoor pistol range<span></span></p>
+        <h1 class="logo">RANGE</h1>
+        <p class="tag">Arcade pistol shooting hall</p>
+
+        <ul class="controls">
+          <li><span class="keys"><kbd>Mouse</kbd></span><span class="act">Aim</span></li>
+          <li><span class="keys"><kbd>Left click</kbd></span><span class="act">Fire</span></li>
+          <li><span class="keys"><kbd>R</kbd></span><span class="act">Reload</span></li>
+          <li><span class="keys"><kbd>1</kbd><kbd>2</kbd><kbd>3</kbd></span><span class="act">Switch pistol</span></li>
+          <li><span class="keys"><kbd>A</kbd><kbd>D</kbd></span><span class="act">Strafe</span></li>
+          <li><span class="keys"><kbd>Esc</kbd></span><span class="act">Pause</span></li>
+        </ul>
+
+        <p class="goal">Clear all four waves. Chain hits for combo multipliers.</p>
+
+        <button id="btn-play" class="cta" type="button" autofocus>Play</button>
+        <p class="hint">Click Play, then click the hall to lock your aim</p>
+      </div>
     </div>
 
     <div id="countdown" class="panel hidden"></div>
@@ -55,4 +72,3 @@
     <script type="module" src="./src/main.ts"></script>
   </body>
 </html>
-```

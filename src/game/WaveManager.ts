@@ -4,7 +4,15 @@ import { TARGET_Z } from "../world/Hall";
 
 interface WaveDef {
   name: string;
-  entries: { kind: TargetKind; count: number; hp: number; points: number }[];
+  entries: {
+    kind: TargetKind;
+    count: number;
+    hp: number;
+    points: number;
+    speed?: number;
+    popupUp?: number;
+    popupDown?: number;
+  }[];
 }
 
 const WAVES: WaveDef[] = [
@@ -26,6 +34,47 @@ const WAVES: WaveDef[] = [
       { kind: "static", count: 4, hp: 1, points: 100 },
       { kind: "mover", count: 4, hp: 2, points: 150 },
       { kind: "popup", count: 4, hp: 1, points: 220 },
+    ],
+  },
+  {
+    name: "Fast Movers",
+    entries: [
+      { kind: "mover", count: 8, hp: 2, points: 180, speed: 1.7 },
+    ],
+  },
+  {
+    name: "Quick Draw",
+    entries: [
+      {
+        kind: "popup",
+        count: 10,
+        hp: 1,
+        points: 230,
+        popupUp: 1.0,
+        popupDown: 0.9,
+      },
+    ],
+  },
+  {
+    name: "Armored",
+    entries: [
+      { kind: "mover", count: 6, hp: 3, points: 260, speed: 1.2 },
+      { kind: "static", count: 4, hp: 3, points: 200 },
+    ],
+  },
+  {
+    name: "Gauntlet",
+    entries: [
+      { kind: "static", count: 3, hp: 2, points: 150 },
+      { kind: "mover", count: 5, hp: 2, points: 220, speed: 1.5 },
+      {
+        kind: "popup",
+        count: 4,
+        hp: 1,
+        points: 260,
+        popupUp: 1.0,
+        popupDown: 0.9,
+      },
     ],
   },
 ];
@@ -79,10 +128,24 @@ export class WaveManager {
   }
 
   private spawnWave(wave: WaveDef): void {
-    const specs: { kind: TargetKind; hp: number; points: number }[] = [];
+    const specs: {
+      kind: TargetKind;
+      hp: number;
+      points: number;
+      speed?: number;
+      popupUp?: number;
+      popupDown?: number;
+    }[] = [];
     for (const e of wave.entries) {
       for (let i = 0; i < e.count; i++) {
-        specs.push({ kind: e.kind, hp: e.hp, points: e.points });
+        specs.push({
+          kind: e.kind,
+          hp: e.hp,
+          points: e.points,
+          speed: e.speed,
+          popupUp: e.popupUp,
+          popupDown: e.popupDown,
+        });
       }
     }
     this.remaining = specs.length;
@@ -97,6 +160,9 @@ export class WaveManager {
         z: z + (s.kind === "mover" ? 0 : (i % 3) * 0.05),
         hp: s.hp,
         points: s.points,
+        speed: s.speed,
+        popupUp: s.popupUp,
+        popupDown: s.popupDown,
       });
       this.targets.push(target);
       this.scene.add(target.group);
