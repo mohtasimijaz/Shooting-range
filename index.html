@@ -89,9 +89,15 @@
     <div id="touch-ui" class="hidden">
       <div id="touch-look"></div>
       <div id="joy"><div id="joy-knob"></div></div>
-      <div class="joy-hint">◀ Strafe ▶</div>
+      <div id="joy-hint" class="joy-hint">◀ Strafe ▶</div>
       <div class="look-hint">Drag to aim</div>
       <button id="t-fire" class="t-btn t-fire" type="button" aria-label="Fire">
+        <svg viewBox="0 0 48 48" aria-hidden="true">
+          <circle cx="24" cy="24" r="15" /><circle cx="24" cy="24" r="3" />
+          <path d="M24 2v10M24 36v10M2 24h10M36 24h10" />
+        </svg>
+      </button>
+      <button id="t-fire-left" class="t-btn t-fire t-fire-left hidden" type="button" aria-label="Fire (left)">
         <svg viewBox="0 0 48 48" aria-hidden="true">
           <circle cx="24" cy="24" r="15" /><circle cx="24" cy="24" r="3" />
           <path d="M24 2v10M24 36v10M2 24h10M36 24h10" />
@@ -164,6 +170,7 @@
               <input id="set-assist" type="checkbox" />
               <span>Aim assist (slows aim over targets)</span>
             </label>
+            <button id="btn-customize" class="btn touch-only" type="button">Customize touch controls</button>
             <p id="quality-note" class="note hidden">Graphics change applies when you return to the menu.</p>
           </div>
           <button id="btn-settings-back" class="btn" type="button">Back</button>
@@ -240,6 +247,29 @@
         <div class="menu-row">
           <button id="btn-end-continue" class="btn hidden" type="button">Continue</button>
           <button id="btn-end-menu" class="btn" type="button">Main menu</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================== Touch layout editor ===================== -->
+    <div id="layout-editor" class="hidden">
+      <div id="le-handles"></div>
+      <div id="le-panel" class="le-panel">
+        <div id="le-grip" class="le-title">Customize controls <span>⠿ drag to move this panel</span></div>
+        <p class="le-hint">Drag any control to move it. Tap one to select it, then change its size.</p>
+        <div class="le-row">
+          <span id="le-selected" class="le-selected">Fire</span>
+          <input id="le-size" type="range" min="0.7" max="1.5" step="0.05" value="1" aria-label="Control size" />
+          <output id="le-size-out">100%</output>
+        </div>
+        <div class="le-row le-toggles">
+          <label><input id="le-fixed-joy" type="checkbox" /> Fixed joystick</label>
+          <label><input id="le-left-fire" type="checkbox" /> Left fire button</label>
+        </div>
+        <div class="le-row le-buttons">
+          <button id="le-reset" class="btn" type="button">Reset</button>
+          <button id="le-cancel" class="btn" type="button">Cancel</button>
+          <button id="le-save" class="btn le-save" type="button">Save</button>
         </div>
       </div>
     </div>

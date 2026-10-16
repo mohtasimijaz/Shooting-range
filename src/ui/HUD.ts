@@ -342,6 +342,10 @@ export class HUD {
     el("btn-end-continue").addEventListener("click", fn);
   }
 
+  onCustomize(fn: () => void): void {
+    el("btn-customize").addEventListener("click", fn);
+  }
+
   onResume(fn: () => void): void {
     el("btn-resume").addEventListener("click", fn);
   }

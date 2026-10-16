@@ -1,3 +1,4 @@
+import { defaultLayout, sanitizeLayout, type TouchLayout } from "../input/Layout";
 import type { QualitySetting } from "./Device";
 
 /**
@@ -18,6 +19,8 @@ export interface SettingsData {
   bestWave: number;
   /** Highest checkpoint wave unlocked (1, 11, 21, 31 or 41). */
   checkpoint: number;
+  /** Custom positions / sizes of the on-screen touch controls. */
+  touchLayout: TouchLayout;
 }
 
 const KEY = "range.settings.v2";
@@ -30,6 +33,7 @@ const DEFAULTS: SettingsData = {
   bestScore: 0,
   bestWave: 0,
   checkpoint: 1,
+  touchLayout: defaultLayout(),
 };
 
 const QUALITIES: QualitySetting[] = ["auto", "low", "medium", "high"];
@@ -41,7 +45,7 @@ function clamp(value: unknown, min: number, max: number, fallback: number): numb
 }
 
 export class Settings {
-  data: SettingsData = { ...DEFAULTS };
+  data: SettingsData = { ...DEFAULTS, touchLayout: defaultLayout() };
 
   constructor() {
     this.load();
@@ -62,9 +66,10 @@ export class Settings {
         bestScore: clamp(parsed.bestScore, 0, Number.MAX_SAFE_INTEGER, 0),
         bestWave: clamp(parsed.bestWave, 0, 50, 0),
         checkpoint: clamp(parsed.checkpoint, 1, 41, 1),
+        touchLayout: sanitizeLayout(parsed.touchLayout),
       };
     } catch {
-      this.data = { ...DEFAULTS };
+      this.data = { ...DEFAULTS, touchLayout: defaultLayout() };
     }
   }
 

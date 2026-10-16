@@ -1404,3 +1404,194 @@ body.touch .slot.pressed {
     animation: none;
   }
 }
+/* Touch: the HUD sits above the touch layer so the weapon slots receive taps
+   (the rest of the HUD has pointer-events: none, so aiming still works). */
+body.touch #hud {
+  z-index: 8;
+}
+
+/* ===================== Custom touch layout ===================== */
+
+/* A control the player moved/resized: centred on --x/--y, scaled by --s. */
+#touch-ui .custom,
+#weapon-slots.custom {
+  left: var(--x);
+  top: var(--y);
+  right: auto;
+  bottom: auto;
+  transform: translate(-50%, -50%) scale(var(--s, 1));
+  transform-origin: center;
+}
+#touch-ui .t-btn.custom.pressed {
+  transform: translate(-50%, -50%) scale(calc(var(--s, 1) * 0.93));
+}
+
+/* Optional second fire button for the left thumb. */
+.t-fire-left {
+  left: calc(28px + var(--safe-l));
+  right: auto;
+  top: calc(42% - 48px);
+  bottom: auto;
+}
+
+/* Fixed joystick: always visible (dimmed) at its chosen spot. */
+#joy.fixed {
+  left: calc(20px + 66px + var(--safe-l));
+  top: 68%;
+  opacity: 0.5;
+}
+#joy.fixed.active {
+  opacity: 1;
+}
+
+/* While editing, show the HUD + touch controls behind the editor. */
+body.editing-controls #menu,
+body.editing-controls #pause {
+  display: none !important;
+}
+body.editing-controls #hud,
+body.editing-controls #touch-ui {
+  display: block !important;
+}
+body.editing-controls #joy.fixed {
+  opacity: 0.9;
+}
+
+#layout-editor {
+  position: fixed;
+  inset: 0;
+  z-index: 15;
+  touch-action: none;
+  background: rgba(6, 8, 10, 0.25);
+}
+#le-handles {
+  position: absolute;
+  inset: 0;
+}
+.le-handle {
+  position: absolute;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  border: 2px dashed rgba(255, 255, 255, 0.7);
+  border-radius: 10px;
+  background: rgba(240, 180, 60, 0.08);
+  touch-action: none;
+  cursor: grab;
+}
+.le-handle span {
+  margin-bottom: -20px;
+  padding: 1px 6px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: #15120a;
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 3px;
+  pointer-events: none;
+}
+.le-handle.selected {
+  border-color: var(--accent);
+  background: rgba(240, 180, 60, 0.22);
+}
+.le-handle.selected span {
+  background: var(--accent);
+}
+.le-handle.dragging {
+  cursor: grabbing;
+}
+
+.le-panel {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: min(92vw, 380px);
+  padding: 10px 14px 12px;
+  background: rgba(12, 15, 19, 0.92);
+  border: 1px solid rgba(240, 180, 60, 0.35);
+  border-radius: 6px;
+  box-shadow: 0 16px 50px rgba(0, 0, 0, 0.6);
+  touch-action: none;
+}
+.le-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+  font-family: var(--font-num);
+  font-size: 17px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #fff3d6;
+  cursor: move;
+}
+.le-title span {
+  font-family: var(--font-ui);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: none;
+  color: var(--ink-faint);
+}
+.le-hint {
+  margin: 4px 0 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink-dim);
+}
+.le-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+}
+.le-selected {
+  min-width: 92px;
+  font-weight: 700;
+  color: var(--accent-2);
+}
+.le-row input[type="range"] {
+  flex: 1;
+  accent-color: var(--accent);
+  height: 26px;
+}
+.le-row output {
+  min-width: 40px;
+  text-align: right;
+  font-family: var(--font-num);
+}
+.le-toggles {
+  justify-content: space-between;
+}
+.le-toggles label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.le-toggles input {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--accent);
+}
+.le-buttons {
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+.le-buttons .btn {
+  min-width: 0;
+  padding: 7px 14px;
+  font-size: 13px;
+}
+.le-buttons .le-save {
+  color: #15120a;
+  background: var(--accent);
+  border-color: var(--accent);
+}
+#btn-customize {
+  align-self: flex-start;
+}

@@ -9,6 +9,7 @@ import { IS_TOUCH, qualityProfile, supportsPointerLock, type QualityProfile } fr
 import { Settings, type SettingsData } from "../core/Settings";
 import { Input, type InputAction } from "../input/Input";
 import { HUD } from "../ui/HUD";
+import { LayoutEditor } from "../ui/LayoutEditor";
 import { buildHall } from "../world/Hall";
 import { Effects, type Surface } from "./Effects";
 import { Player } from "./Player";
@@ -50,6 +51,7 @@ export class Game {
   private readonly colliders: THREE.Mesh[];
   private readonly raycaster = new THREE.Raycaster();
   private readonly composer: EffectComposer | null = null;
+  private readonly layoutEditor: LayoutEditor | null = null;
   private readonly clock = new THREE.Clock();
 
   private countdown = 3;
@@ -107,6 +109,10 @@ export class Game {
     this.effects = new Effects(this.scene, this.quality);
     this.effects.onCasingBounce = (strength) => this.sound.casing(strength);
     this.input = new Input(this.canvas, () => this.settings.data.sensitivity);
+    if (this.input.touch) {
+      this.input.touch.applyLayout(this.settings.data.touchLayout);
+      this.layoutEditor = new LayoutEditor(this.input.touch, this.settings);
+    }
 
     if (this.quality.bloom) {
       const composer = new EffectComposer(this.renderer);
@@ -183,6 +189,7 @@ export class Game {
     this.hud.onResume(() => this.resume());
     this.hud.onQuit(() => this.toMenu());
     this.hud.onSettingsChange((patch) => this.applySettings(patch));
+    this.hud.onCustomize(() => this.layoutEditor?.open());
   }
 
   private applySettings(patch: Partial<SettingsData>): void {
