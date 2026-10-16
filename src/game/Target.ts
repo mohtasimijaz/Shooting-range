@@ -62,9 +62,12 @@ function getShared(): Shared {
   const hitboxes = {} as Record<FaceId | "steel", THREE.BoxGeometry>;
   for (const id of Object.keys(FACES) as FaceId[]) {
     const info = FACES[id];
+    // Matte, slightly off-white paper so lit targets never glare.
     const front = new THREE.MeshStandardMaterial({
       map: faceTexture(id),
-      roughness: 0.88,
+      color: id === "bonus" ? 0xe6e6e6 : 0xcfcac0,
+      roughness: 1,
+      envMapIntensity: 0.4,
       transparent: id === "bonus",
       alphaTest: id === "bonus" ? 0.5 : 0,
     });
@@ -82,7 +85,7 @@ function getShared(): Shared {
     hitMat: new THREE.MeshBasicMaterial({ visible: false }),
     metal: new THREE.MeshStandardMaterial({ color: 0x8e949b, metalness: 0.8, roughness: 0.35 }),
     dark: new THREE.MeshStandardMaterial({ color: 0x2a2c30, metalness: 0.5, roughness: 0.55 }),
-    steelPaint: new THREE.MeshStandardMaterial({ color: 0xe9e3d3, metalness: 0.35, roughness: 0.5 }),
+    steelPaint: new THREE.MeshStandardMaterial({ color: 0xbdb7a9, metalness: 0.3, roughness: 0.6 }),
     carriage: new THREE.BoxGeometry(0.2, 0.12, 0.16),
     clamp: new THREE.BoxGeometry(1, 0.035, 0.035),
     rod: new THREE.CylinderGeometry(0.01, 0.01, 1, 6),

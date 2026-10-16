@@ -17,7 +17,7 @@ import {
  *  - Poured concrete floor with painted lane lines, firing line and distance marks
  *  - Acoustic foam walls above steel ballistic wainscot panels
  *  - Angled ceiling baffles, steel trusses, a ventilation duct
- *  - Fluorescent tube fixtures (emissive, picked up by bloom on desktop)
+ *  - Fluorescent tube fixtures (self-lit, kept soft so they never dazzle)
  *  - Steel "escalator" bullet trap with a rubber berm at the back
  *  - Overhead target carrier rails, a wooden shooting bench with rubber mats
  *
@@ -306,9 +306,11 @@ export function buildHall(scene: THREE.Scene, quality: QualityProfile): THREE.Me
   const fixtureX = [-5.4, -1.8, 1.8, 5.4];
   const count = fixtureZ.length * fixtureX.length;
   const housing = new THREE.InstancedMesh(new THREE.BoxGeometry(1.32, 0.07, 0.26), darkSteel, count);
+  // Tubes stay just below the bloom threshold: they read as lit fixtures
+  // without flaring or dazzling the player.
   const tubes = new THREE.InstancedMesh(
     new THREE.CylinderGeometry(0.02, 0.02, 1.22, 10),
-    new THREE.MeshBasicMaterial({ color: new THREE.Color(1.25, 1.22, 1.15), toneMapped: false }),
+    new THREE.MeshBasicMaterial({ color: new THREE.Color(0.82, 0.8, 0.76) }),
     count * 2,
   );
   const tubeRot = new THREE.Quaternion().setFromEuler(new THREE.Euler(0, 0, Math.PI / 2));
@@ -352,7 +354,7 @@ export function buildHall(scene: THREE.Scene, quality: QualityProfile): THREE.Me
   scene.add(lampBox);
   const lampGreen = new THREE.Mesh(
     new THREE.SphereGeometry(0.06, 12, 8),
-    new THREE.MeshBasicMaterial({ color: new THREE.Color(0.3, 2.2, 0.5), toneMapped: false }),
+    new THREE.MeshBasicMaterial({ color: new THREE.Color(0.2, 0.85, 0.35) }),
   );
   lampGreen.position.set(-ROOM.halfWidth + 0.16, 2.5, 8.4);
   const lampRed = new THREE.Mesh(new THREE.SphereGeometry(0.06, 12, 8), new THREE.MeshStandardMaterial({ color: 0x3a0b0b }));
@@ -365,7 +367,7 @@ export function buildHall(scene: THREE.Scene, quality: QualityProfile): THREE.Me
 
   // Key lights over the target bay (the brightest area of the room).
   for (const [i, x] of [-3, 3].entries()) {
-    const key = new THREE.SpotLight(0xfff4e0, 38, 24, 0.85, 0.5, 1.2);
+    const key = new THREE.SpotLight(0xfff1dc, 22, 24, 0.85, 0.6, 1.2);
     key.position.set(x, H - 0.3, 4.2);
     key.target.position.set(x * 0.3, 1.2, -2.2);
     if (i < quality.shadowLights) {
@@ -381,7 +383,7 @@ export function buildHall(scene: THREE.Scene, quality: QualityProfile): THREE.Me
 
   if (quality.fillLights) {
     for (const x of [-4.5, 4.5]) {
-      const fill = new THREE.SpotLight(0xfff1d6, 14, 16, 1.0, 0.7, 1.2);
+      const fill = new THREE.SpotLight(0xfff1d6, 11, 16, 1.0, 0.7, 1.2);
       fill.position.set(x, H - 0.3, 9.5);
       fill.target.position.set(x * 0.5, 0.8, 6.5);
       scene.add(fill, fill.target);
@@ -389,7 +391,7 @@ export function buildHall(scene: THREE.Scene, quality: QualityProfile): THREE.Me
   }
 
   // Wash on the bullet trap so the end of the room reads clearly.
-  const wash = new THREE.SpotLight(0xd6e4ff, 18, 16, 1.0, 0.8, 1.2);
+  const wash = new THREE.SpotLight(0xd6e4ff, 14, 16, 1.0, 0.8, 1.2);
   wash.position.set(0, H - 0.3, -2.5);
   wash.target.position.set(0, 1.6, ROOM.backZ);
   scene.add(wash, wash.target);
